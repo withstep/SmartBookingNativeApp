@@ -2,96 +2,65 @@ import React from 'react';
 import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import Icon from 'react-native-vector-icons/dist/FontAwesome';
 
+class Week extends React.Component {
+  constructor(props) {
+    super(props)
+
+  }
+  render() {
+    return (
+      <TouchableOpacity style={[weekStyle.weekItem,  weekStyle.weekItemLast]} >
+        <View style={[weekStyle.week, this.props.style]}>
+          <Text style={weekStyle.weekText}>{this.props.text}</Text>
+        </View>
+        <View style={weekStyle.dayView}>
+          <Text style={weekStyle.day}>{this.props.day}</Text>
+        </View>
+      </TouchableOpacity>
+    );
+  }
+}
+
 class Weekly extends React.Component {
   constructor(props) {
     super(props)
-    this.state = {
-        sun: '', // 일
-        mon: '', // 월
-        tue: '', // 화
-        wed: '', // 수
-        thu: '', // 목
-        fri: '', // 금
-        sat: '', // 토
-    };
-    this.onLoad = this.onLoad.bind(this);
-    this.onLoad();
+    this.state = {};
+    let now = new Date(this.props.year, this.props.month, this.props.day);
+    let nowDayOfWeek = now.getDay();
+    let nowDay = now.getDate();
+    let nowMonth = now.getMonth();
+    let nowYear = now.getYear();
+    nowYear += (nowYear < 2000) ? 1900 : 0;
+    let weekDates = new Array();
+    let weekItems = new Array(
+        {text : '일', style : weekStyle.sun},
+        {text : '월', style : weekStyle.mon},
+        {text : '화', style : weekStyle.tue},
+        {text : '수', style : weekStyle.wed},
+        {text : '목', style : weekStyle.thu},
+        {text : '금', style : weekStyle.fri},
+        {text : '토', style : weekStyle.sat}
+    )
+    for(let i = 0; i < 7; i++) {
+      let weekDate = new Date(nowYear, nowMonth, nowDay + (i - nowDayOfWeek));
+      weekDates.push({
+        day: weekDate.getDate(),
+        text: weekItems[i].text,
+        style: weekItems[i].style,
+      });
+    }
+    this.state.dates = weekDates;
   }
-  onLoad = (data) => {
-    // let date = new Date(this.props.year, this.props.month, this.props.day);
-    alert('load first');
-    this.setState(previousState => {
-        return { sun : '1' };
-    });
-  }
-  render () {
+  render() {
     return (
-      <View style={{flex: 1, marginLeft: 10, marginRight: 10, marginTop: 15, marginBottom: 15, flexDirection: 'row', borderRadius: 5, overflow: 'hidden', backgroundColor: '#404041', justifyContent: 'space-between', alignItems: 'center'}}>
-
-        <TouchableOpacity style={{flex: 1, borderRightWidth: 0.5, borderRightColor: '#333334'}} >
-          <View style={{flex: 1, flexDirection: 'row', backgroundColor: '#f36f21'}}>
-            <Text style={{flex: 1, color: '#ffffff', fontWeight: 'bold', textAlign: 'center', height: 35, lineHeight: 25, fontSize: 16}}>월</Text>
-          </View>
-          <View style={{flex: 1, flexDirection: 'row'}}>
-            <Text style={{flex: 1, color: '#6d6e71', textAlign: 'center', fontSize: 16, fontWeight: 'bold', height: 35, lineHeight: 25}}>{this.state.mon}</Text>
-          </View>
-        </TouchableOpacity>
-
-        <TouchableOpacity style={{flex: 1, borderRightWidth: 0.5, borderRightColor: '#333334'}} >
-          <View style={{flex: 1, flexDirection: 'row', backgroundColor: '#ffcb08'}}>
-            <Text style={{flex: 1, color: '#ffffff', fontWeight: 'bold', textAlign: 'center', height: 35, lineHeight: 25, fontSize: 16}}>화</Text>
-          </View>
-          <View style={{flex: 1, flexDirection: 'row'}}>
-            <Text style={{flex: 1, color: '#6d6e71', textAlign: 'center', fontSize: 16, fontWeight: 'bold', height: 35, lineHeight: 25}}>{this.state.tue}</Text>
-          </View>
-        </TouchableOpacity>
-
-        <TouchableOpacity style={{flex: 1, borderRightWidth: 0.5, borderRightColor: '#333334'}} >
-          <View style={{flex: 1, flexDirection: 'row', backgroundColor: '#8dc63f'}}>
-            <Text style={{flex: 1, color: '#ffffff', fontWeight: 'bold', textAlign: 'center', height: 35, lineHeight: 25, fontSize: 16}}>수</Text>
-          </View>
-          <View style={{flex: 1, flexDirection: 'row'}}>
-            <Text style={{flex: 1, color: '#6d6e71', textAlign: 'center', fontSize: 16, fontWeight: 'bold', height: 35, lineHeight: 25}}>{this.state.wed}</Text>
-          </View>
-        </TouchableOpacity>
-
-        <TouchableOpacity style={{flex: 1, borderRightWidth: 0.5, borderRightColor: '#333334'}} >
-          <View style={{flex: 1, flexDirection: 'row', backgroundColor: '#00aeef'}}>
-            <Text style={{flex: 1, color: '#ffffff', fontWeight: 'bold', textAlign: 'center', height: 35, lineHeight: 25, fontSize: 16}}>목</Text>
-          </View>
-          <View style={{flex: 1, flexDirection: 'row'}}>
-            <Text style={{flex: 1, color: '#6d6e71', textAlign: 'center', fontSize: 16, fontWeight: 'bold', height: 35, lineHeight: 25}}>{this.state.thu}</Text>
-          </View>
-        </TouchableOpacity>
-
-
-        <TouchableOpacity style={{flex: 1, borderRightWidth: 0.5, borderRightColor: '#333334'}} >
-          <View style={{flex: 1, flexDirection: 'row', backgroundColor: '#283891'}}>
-            <Text style={{flex: 1, color: '#ffffff', fontWeight: 'bold', textAlign: 'center', height: 35, lineHeight: 25, fontSize: 16}}>금</Text>
-          </View>
-          <View style={{flex: 1, flexDirection: 'row'}}>
-            <Text style={{flex: 1, color: '#6d6e71', textAlign: 'center', fontSize: 16, fontWeight: 'bold', height: 35, lineHeight: 25}}>{this.state.fri}</Text>
-          </View>
-        </TouchableOpacity>
-
-        <TouchableOpacity style={{flex: 1, borderRightWidth: 0.5, borderRightColor: '#333334'}} >
-          <View style={{flex: 1, flexDirection: 'row', backgroundColor: '#662d91'}}>
-            <Text style={{flex: 1, color: '#ffffff', fontWeight: 'bold', textAlign: 'center', height: 35, lineHeight: 25, fontSize: 16}}>토</Text>
-          </View>
-          <View style={{flex: 1, flexDirection: 'row'}}>
-            <Text style={{flex: 1, color: '#6d6e71', textAlign: 'center', fontSize: 16, fontWeight: 'bold', height: 35, lineHeight: 25}}>{this.state.sat}</Text>
-          </View>
-        </TouchableOpacity>
-
-        <TouchableOpacity style={{flex: 1, borderRightWidth: 0.5, borderRightColor: '#333334'}} >
-          <View style={{flex: 1, flexDirection: 'row', backgroundColor: '#ed1c24'}}>
-            <Text style={{flex: 1, color: '#ffffff', fontWeight: 'bold', textAlign: 'center', height: 35, lineHeight: 25, fontSize: 16}}>일</Text>
-          </View>
-          <View style={{flex: 1, flexDirection: 'row'}}>
-            <Text style={{flex: 1, color: '#6d6e71', textAlign: 'center', fontSize: 16, fontWeight: 'bold', height: 35, lineHeight: 25}}>{this.state.sun}</Text>
-          </View>
-        </TouchableOpacity>
-
+      <View style={weekStyle.wrapper}>
+        {this.state.dates.map((contact,i)=> {
+          return (<Week
+              day={contact.day}
+              text={contact.text}
+              style={contact.style}
+            />);
+        })}
       </View>
     )
   }
@@ -104,7 +73,7 @@ export default class HomeScreen extends React.Component {
       year: this.props.year,
       month: this.props.month,
       day: this.props.day,
-      date: this.props.year + '.' + this.props.month
+      date: this.props.year + '.' + (this.props.month+1)
     };
   }
   static navigationOptions = {
@@ -162,9 +131,80 @@ export default class HomeScreen extends React.Component {
 let now = new Date();
 HomeScreen.defaultProps = {
   year: now.getFullYear(),
-  month: (now.getMonth()+1),
+  month: now.getMonth(),
   day: now.getDate()
 }
+
+const weekStyle = StyleSheet.create({
+  wrapper : {
+    flex: 1,
+    marginLeft: 10,
+    marginRight: 10,
+    marginTop: 15,
+    marginBottom: 15,
+    flexDirection: 'row',
+    borderRadius: 5,
+    overflow: 'hidden',
+    backgroundColor: '#404041',
+    justifyContent: 'space-between',
+    alignItems: 'center'
+  },
+  weekItem : {
+    flex: 1,
+    borderRightWidth: 0.5,
+    borderRightColor: '#333334'
+  },
+  weekItemLast : {
+    borderRightWidth: 0
+  },
+  week: {
+    flex: 1,
+    flexDirection: 'row',
+  },
+  mon : {
+    backgroundColor: '#f36f21'
+  },
+  tue : {
+    backgroundColor: '#ffcb08'
+  },
+  wed : {
+    backgroundColor: '#8dc63f'
+  },
+  thu : {
+    backgroundColor: '#00aeef'
+  },
+  fri : {
+    backgroundColor: '#283891'
+  },
+  sat : {
+    backgroundColor: '#662d91'
+  },
+  sun : {
+    backgroundColor: '#ed1c24'
+  },
+  weekText : {
+    flex: 1,
+    height: 35,
+    lineHeight: 25,
+    fontSize: 16,
+    color: '#ffffff',
+    fontWeight: 'bold',
+    textAlign: 'center'
+  },
+  dayView: {
+    flex: 1,
+    flexDirection: 'row'
+  },
+  day : {
+    flex: 1,
+    color: '#6d6e71',
+    textAlign: 'center',
+    fontSize: 16,
+    fontWeight: 'bold',
+    height: 35,
+    lineHeight: 25
+  }
+});
 
 const homeStyle = StyleSheet.create({
   wrapper : {
