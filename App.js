@@ -4,24 +4,10 @@ import { StackNavigator } from 'react-navigation';
 
 import HomeScreen from './src/components/HomeScreen';
 
-class ChatScreen extends React.Component {
-  static navigationOptions = {
-    title: 'Chat with Lucy',
-  };
-  render() {
-    return (
-      <View>
-        <Text>Chat with Lucy</Text>
-      </View>
-    );
-  }
-}
-
 const SimpleApp = StackNavigator({
-  Home: { screen: HomeScreen },
-  Chat: { screen: ChatScreen }
+  Home: { screen: HomeScreen }
 },
-  { headerMode: 'screen' }
+  { headerMode: 'hidden' }
 );
 
 export default class App extends React.Component {
